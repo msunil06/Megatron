@@ -1,40 +1,51 @@
+import os
 import cv2
 import numpy as np
-from PIL import Image #pillow package
-import os
+from PIL import Image
 
-path = 'engine\\auth\\samples' # Path for samples already taken
+base_dir = os.path.dirname(os.path.abspath(__file__))
+path = os.path.join(base_dir, 'samples')
+cascade_path = os.path.join(base_dir, "haarcascade_frontalface_default.xml")
+trainer_dir = os.path.join(base_dir, 'trainer')
+os.makedirs(trainer_dir, exist_ok=True)
+model_path = os.path.join(trainer_dir, 'trainer.yml')
 
-recognizer = cv2.face.LBPHFaceRecognizer_create() # Local Binary Patterns Histograms
-detector = cv2.CascadeClassifier("engine\\auth\\haarcascade_frontalface_default.xml")
-#Haar Cascade classifier is an effective object detection approach
+if not hasattr(cv2, 'face'):
+    print("[Error] cv2.face module is not available. Please install opencv-contrib-python to train LBPH models.")
+    exit(1)
 
+recognizer = cv2.face.LBPHFaceRecognizer_create()
+detector = cv2.CascadeClassifier(cascade_path)
 
-def Images_And_Labels(path): # function to fetch the images and labels
-
-    imagePaths = [os.path.join(path,f) for f in os.listdir(path)]     
-    faceSamples=[]
+def Images_And_Labels(sample_folder):
+    if not os.path.exists(sample_folder):
+        return [], []
+    imagePaths = [os.path.join(sample_folder, f) for f in os.listdir(sample_folder) if f.endswith('.jpg') or f.endswith('.png')]     
+    faceSamples = []
     ids = []
 
-    for imagePath in imagePaths: # to iterate particular image path
+    for imagePath in imagePaths:
+        gray_img = Image.open(imagePath).convert('L')
+        img_arr = np.array(gray_img, 'uint8')
 
-        gray_img = Image.open(imagePath).convert('L') # convert it to grayscale
-        img_arr = np.array(gray_img,'uint8') #creating an array
+        try:
+            face_id = int(os.path.split(imagePath)[-1].split(".")[1])
+        except (IndexError, ValueError):
+            continue
 
-        id = int(os.path.split(imagePath)[-1].split(".")[1])
         faces = detector.detectMultiScale(img_arr)
+        for (x, y, w, h) in faces:
+            faceSamples.append(img_arr[y:y+h, x:x+w])
+            ids.append(face_id)
 
-        for (x,y,w,h) in faces:
-            faceSamples.append(img_arr[y:y+h,x:x+w])
-            ids.append(id)
+    return faceSamples, ids
 
-    return faceSamples,ids
+print("Training faces. It will take a few seconds. Wait...")
+faces, ids = Images_And_Labels(path)
 
-print ("Training faces. It will take a few seconds. Wait ...")
-
-faces,ids = Images_And_Labels(path)
-recognizer.train(faces, np.array(ids))
-
-recognizer.write('engine\\auth\\trainer\\trainer.yml')  # Save the trained model as trainer.yml
-
-print("Model trained, Now we can recognize your face.")
+if len(faces) == 0:
+    print("No face samples found in:", path)
+else:
+    recognizer.train(faces, np.array(ids))
+    recognizer.write(model_path)
+    print(f"Model trained successfully on {len(faces)} samples and saved to: {model_path}")

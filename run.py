@@ -1,33 +1,36 @@
- 
-
 import multiprocessing
-import subprocess
+import sys
+import time
 
-# To run Jarvis
-def startJarvis():
-        # Code for process 1
-        print("Process 1 is running.")
-        from main import start
-        start()
+# To run Megatron Core Application & GUI
+def startMegatron():
+    print("[Process 1] Megatron Desktop GUI process starting...")
+    from main import start
+    start()
 
-# To run hotword
+# To run background Hotword detection ("Megatron", "Alexa")
 def listenHotword():
-        # Code for process 2
-        print("Process 2 is running.")
-        from engine.features import hotword
-        hotword()
+    print("[Process 2] Megatron Hotword listener starting...")
+    from engine.features import hotword
+    hotword()
 
-
-    # Start both processes
 if __name__ == '__main__':
-        p1 = multiprocessing.Process(target=startJarvis)
-        p2 = multiprocessing.Process(target=listenHotword)
-        p1.start()
-        p2.start()
-        p1.join()
+    # Ensure Windows multiprocessing compatibility
+    multiprocessing.freeze_support()
 
-        if p2.is_alive():
-            p2.terminate()
-            p2.join()
+    p1 = multiprocessing.Process(target=startMegatron, name="Megatron-GUI")
+    p2 = multiprocessing.Process(target=listenHotword, name="Megatron-Hotword")
 
-        print("system stop")
+    p1.start()
+    p2.start()
+
+    # Wait for GUI process to finish
+    p1.join()
+
+    # Terminate background hotword listener on GUI exit
+    if p2.is_alive():
+        print("[Megatron] Terminating background processes...")
+        p2.terminate()
+        p2.join(timeout=2)
+
+    print("[Megatron] System successfully shut down.")

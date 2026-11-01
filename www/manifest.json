@@ -1,0 +1,29 @@
+{
+  "name": "Megatron AI Mobile Suite",
+  "short_name": "Megatron",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#050811",
+  "theme_color": "#00f0ff",
+  "orientation": "portrait-primary",
+  "description": "Megatron AI - Autonomous Assistant & Visual Solution Finder with Full Device Control",
+  "icons": [
+    {
+      "src": "assets/img/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/img/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/img/logo.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

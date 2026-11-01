@@ -4,9 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jarvis</title>
+    <title>MEGATRON // Holographic AI System</title>
 
     <link rel="shortcut icon" href="assets/img/logo.ico" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00f0ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootsrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -268,6 +278,11 @@
                     <div class="d-flex justify-content-center align-items-center">
                         <h1 id="WishMessage" class="text-center text-light text mt-4 siri-message">Initializing...</h1>
                     </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <button id="SkipAuthBtn" class="btn btn-outline-info btn-sm glow-on-hover" style="width: auto; height: auto; padding: 7px 22px; border-radius: 20px; font-size: 13px;">
+                            <i class="bi bi-shield-slash"></i> Skip Biometric Scan
+                        </button>
+                    </div>
                 </div>
 
             </div>
@@ -275,40 +290,159 @@
 
         <section id="Oval" class="mb-4" hidden>
 
+            <!-- Megatron Holographic Top Telemetry HUD Bar -->
+            <div class="megatron-top-hud d-flex justify-content-between align-items-center mb-2 px-3 pt-2">
+                <div class="hud-brand d-flex align-items-center gap-2">
+                    <span class="hud-brand-icon"><i class="bi bi-cpu-fill"></i></span>
+                    <span class="hud-brand-title">MEGATRON</span>
+                    <span class="hud-version-badge">v3.0 HOLOGRAPHIC AI</span>
+                </div>
+                <div class="hud-status-group d-flex align-items-center gap-2">
+                    <span class="hud-pill hud-pill-online" id="HudModePill"><span class="pulse-dot"></span> MEGATRON CORE: ONLINE</span>
+                    <span class="hud-pill hud-pill-trained" id="HudTrainingPill" title="Continuous AI Training Active"><i class="bi bi-brain"></i> TRAINED: <span id="TrainedCountBadge">0</span> NODES</span>
+                    <!-- System Controls only shown in Native App / Software Suite (never in web browser) -->
+                    <button class="hud-pill hud-pill-sys-control app-only-feature" id="HudSystemControlBtn" style="display: none;" title="System Hardware Controls (App & Software Suite Only)"><i class="bi bi-terminal-fill text-warning"></i> SYSTEM CONTROLS</button>
+                    <!-- Downloadable Buttons for Windows Software and Android APK -->
+                    <a href="downloads/Megatron_Windows_Software_Suite.zip" download="Megatron_Windows_Software_Suite.zip" class="hud-pill-download-win" id="HudDownloadWinBtn" title="Download Megatron Windows PC Software Suite (.zip)">
+                        <i class="bi bi-windows text-primary"></i> DOWNLOAD PC
+                    </a>
+                    <a href="downloads/Megatron_Android_App.apk" download="Megatron_Android_App.apk" class="hud-pill-download-apk" id="HudDownloadApkBtn" title="Download Megatron Android Mobile APK (.apk)">
+                        <i class="bi bi-android2 text-success"></i> DOWNLOAD APK
+                    </a>
+                    <button class="hud-pill hud-pill-net" id="HudNetAccessBtn" title="Click to view Local Wi-Fi Network URL for All Devices (Phones, Tablets, Laptops)"><i class="bi bi-wifi text-info"></i> <span id="HudNetAccessText">ALL DEVICES: 10.42.100.247:8000</span></button>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-10">
-                    <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+                    <div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
 
                         <canvas id="canvasOne" width="700" height="420" style="position: absolute;"></canvas>
 
-                        <div id="JarvisHood">
+                        <!-- Megatron Holographic Core Structure -->
+                        <div id="MegatronHood">
+                            <div class="megatron-core-wrap">
+                                <!-- Holographic Targeting Brackets -->
+                                <div class="megatron-bracket bracket-tl"></div>
+                                <div class="megatron-bracket bracket-tr"></div>
+                                <div class="megatron-bracket bracket-bl"></div>
+                                <div class="megatron-bracket bracket-br"></div>
 
-                            <div class="square">
-                                <span class="circle"></span>
-                                <span class="circle"></span>
-                                <span class="circle"></span>
+                                <!-- Rotating Holographic Compass & Azimuth Ring -->
+                                <div class="megatron-ring ring-azimuth"></div>
+                                <!-- Middle Segmented Mechanical Ring with Calibrated Teeth -->
+                                <div class="megatron-ring ring-segmented"></div>
+
+                                <!-- Circular Audio Equalizer Spectrum Ring -->
+                                <div class="megatron-equalizer-ring">
+                                    <span></span><span></span><span></span><span></span><span></span>
+                                    <span></span><span></span><span></span><span></span><span></span>
+                                    <span></span><span></span><span></span><span></span><span></span>
+                                    <span></span><span></span><span></span><span></span><span></span>
+                                </div>
+
+                                <!-- Inner Counter-Rotating Hologram Ring -->
+                                <div class="megatron-ring ring-inner-tech"></div>
+                                <!-- 360° Holographic Radar Scanner -->
+                                <div class="megatron-scanner"></div>
+
+                                <!-- Central Arc Reactor Core -->
+                                <div class="megatron-arc-core" id="MegatronCoreHub" title="Megatron Neural Arc Reactor Core">
+                                    <div class="arc-pulse-field"></div>
+                                    <div class="arc-triangle-shroud">
+                                        <div class="arc-inner-node">
+                                            <i class="bi bi-cpu-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
 
                     </div>
-                    <h5 class="text-light text text-center">Ask me anything</h5>
+                    <h5 class="text-light text text-center mt-3" style="font-family: 'Rajdhani', sans-serif; font-size: 21px; letter-spacing: 2px; color: #67e8f9;">MEGATRON IS ONLINE... ASK ME ANYTHING</h5>
 
-                    <div class="col-md-12 mt-4 pt-4">
+                    <!-- Inline Holographic Voice Telemetry Dock (Active during voice listening without hiding HUD or locking scrolling) -->
+                    <div id="AcousticListeningDock" class="text-center my-2" style="display: none;">
+                        <div class="d-inline-flex align-items-center gap-3 px-3 py-1 rounded-pill" style="background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.45); box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);">
+                            <span class="pulse-dot"></span>
+                            <span class="siri-message text-info fw-bold" id="ListeningStatusLabel" style="font-family: 'Orbitron', monospace; font-size: 13px; letter-spacing: 1.2px;">LISTENING FOR VOICE COMMAND...</span>
+                            <button type="button" class="btn btn-outline-danger btn-sm py-0 px-2 rounded-pill" id="CancelVoiceListeningBtn" style="font-size: 11px;"><i class="bi bi-x-circle me-1"></i> Cancel</button>
+                        </div>
+                    </div>
+
+                    <!-- Megatron Holographic Live Response Box (Always shows answers with voice & copy) -->
+                    <div id="MegatronLiveResponseBox" class="megatron-live-response-box mx-auto mt-3" style="display: none; max-width: 840px;">
+                        <div class="d-flex justify-content-between align-items-center mb-2 pb-1 border-bottom border-info">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="pulse-dot"></span>
+                                <strong class="text-info" style="font-family: 'Orbitron', monospace; font-size: 13px; letter-spacing: 1.5px;"><i class="bi bi-cpu-fill me-1"></i> MEGATRON INTEL // LIVE RESPONSE</strong>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-dark border border-warning text-warning" id="ResponseTrainedBadge" style="font-size: 10px;"><i class="bi bi-brain me-1"></i> TRAINED TO NEURAL MEMORY</span>
+                                <button type="button" class="btn btn-outline-info btn-sm py-0 px-2" id="ReplayLiveVoiceBtn" title="Replay voice"><i class="bi bi-volume-up-fill"></i> Voice</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2 text-light" id="CopyLiveResponseBtn" title="Copy text"><i class="bi bi-clipboard"></i> Copy</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm py-0 px-2" id="DismissLiveResponseBtn" title="Dismiss"><i class="bi bi-x-lg"></i></button>
+                            </div>
+                        </div>
+                        <div id="MegatronLiveResponseText" class="live-response-content text-start text-light" style="font-family: 'Rajdhani', sans-serif; font-size: 17px; line-height: 1.6; max-height: 200px; overflow-y: auto;">
+                            <!-- Response displays here -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-3 pt-2">
                         <div class="text-center">
-                            <div id="TextInput" class="d-flex">
+                            <div id="TextInput" class="d-flex align-items-center">
 
                                 <input type="text" class="input-field" name="chatbox" id="chatbox"
-                                    placeholder="type here ... ">
-                                <button id="SendBtn" class="glow-on-hover" hidden><i class="bi bi-send"></i></button>
-                                <button id="MicBtn" class="glow-on-hover"><i class="bi bi-mic"></i></button>
+                                    placeholder="Ask Megatron anything, type questions, search online...">
+                                <button id="SendBtn" class="glow-on-hover" hidden title="Send"><i class="bi bi-send-fill text-info"></i></button>
+                                <button id="MicBtn" class="glow-on-hover" title="Voice Input"><i class="bi bi-mic-fill text-info"></i></button>
+                                <button id="ApiIntegrationBtn" class="glow-on-hover" title="API Integration & Key Switcher (Gemini, OpenAI, Groq, OpenRouter)"><i class="bi bi-key-fill text-warning"></i></button>
+                                <button id="ImageSearchBtn" class="glow-on-hover" title="Upload Image & Find Solutions Across Web"><i class="bi bi-camera-fill text-warning"></i></button>
                                 <button id="ChatBtn" class="glow-on-hover" data-bs-toggle="offcanvas"
-                                    data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i
-                                        class="bi bi-chat-dots"></i></button>
+                                    data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" title="Chat History"><i
+                                        class="bi bi-chat-dots-fill text-info"></i></button>
                                 <button id="SettingsBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                    class="glow-on-hover"><i class="bi bi-gear"></i></button>
+                                    class="glow-on-hover" title="Megatron AI Settings"><i class="bi bi-gear-fill text-info"></i></button>
 
+                            </div>
+
+                            <!-- Quick Online AI & Web Tools Dock -->
+                            <div class="d-flex justify-content-center align-items-center mt-3 gap-2 flex-wrap" id="AiQuickDock">
+                                <a href="downloads/Megatron_Windows_Software_Suite.zip" download="Megatron_Windows_Software_Suite.zip" class="ai-quick-btn text-primary border-primary text-decoration-none" id="QuickDownloadWindowsBtn" title="Download Megatron Windows PC Software Suite (.zip)">
+                                    <i class="bi bi-windows text-primary"></i> Windows Software (.zip)
+                                </a>
+                                <a href="downloads/Megatron_Android_App.apk" download="Megatron_Android_App.apk" class="ai-quick-btn text-success border-success text-decoration-none" id="QuickDownloadAndroidBtn" title="Download Megatron Android Mobile APK (.apk)">
+                                    <i class="bi bi-android2 text-success"></i> Android APK (.apk)
+                                </a>
+                                <button class="ai-quick-btn text-info border-info" id="QuickAllDevicesBtn" title="Run Megatron on All Devices (Phones, Tablets, Laptops on this Wi-Fi)">
+                                    <i class="bi bi-wifi text-info"></i> All Devices Wi-Fi
+                                </button>
+                                <button class="ai-quick-btn" id="QuickApiIntegrationBtn" title="Attach or Switch AI API Key if Package Ends">
+                                    <i class="bi bi-key-fill text-warning"></i> API Integration
+                                </button>
+                                <button class="ai-quick-btn" id="QuickImageSearchBtn" title="Upload Image to Search Solutions">
+                                    <i class="bi bi-camera-fill text-warning"></i> Visual Solution Finder
+                                </button>
+                                <button class="ai-quick-btn" data-ai="chatgpt" title="Open ChatGPT">
+                                    <i class="bi bi-robot"></i> ChatGPT
+                                </button>
+                                <button class="ai-quick-btn" data-ai="claude" title="Open Claude AI">
+                                    <i class="bi bi-stars"></i> Claude
+                                </button>
+                                <button class="ai-quick-btn" data-ai="gemini" title="Open Google Gemini">
+                                    <i class="bi bi-google"></i> Gemini
+                                </button>
+                                <button class="ai-quick-btn" data-ai="perplexity" title="Search Perplexity AI">
+                                    <i class="bi bi-compass"></i> Perplexity
+                                </button>
+                                <button class="ai-quick-btn" id="QuickWeatherBtn" title="Get Live Weather">
+                                    <i class="bi bi-cloud-sun-fill text-warning"></i> Weather
+                                </button>
+                                <button class="ai-quick-btn" id="QuickNewsBtn" title="Get Live Top News">
+                                    <i class="bi bi-newspaper text-danger"></i> Top News
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -321,16 +455,17 @@
 
         <section id="SiriWave" class="mb-4" hidden>
 
-            <div class="container">
+            <div class="container py-4">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
-                            <div class="">
-                                <p class="text-start text-light mb-4 siri-message" style="font-size: 28px;">Hello, I am
-                                    J.A.R.V.I.S</p>
+                        <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 50vh;">
+                            <div class="text-center">
+                                <p class="text-center text-light mb-4 siri-message" style="font-size: 26px; color: #00f0ff; text-shadow: 0 0 16px rgba(0,240,255,0.85); font-family: 'Orbitron', monospace;">HELLO, I AM M.E.G.A.T.R.O.N</p>
                                 <div id="siri-container"></div>
+                                <div class="mt-4">
+                                    <button class="btn btn-outline-info rounded-pill px-4 py-2" id="BackToHudBtn" style="font-family: 'Orbitron', monospace; font-size: 13px; letter-spacing: 1px; box-shadow: 0 0 15px rgba(0,240,255,0.3);"><i class="bi bi-arrow-left me-2"></i> RETURN TO MEGATRON HUD</button>
+                                </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -347,6 +482,13 @@
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div id="chat-canvas-body" class="offcanvas-body">
+            <div class="mb-3 d-flex flex-wrap gap-1">
+                <span class="badge bg-dark border border-info text-info cursor-pointer quick-chip" data-cmd="open chatgpt">🤖 ChatGPT</span>
+                <span class="badge bg-dark border border-warning text-warning cursor-pointer quick-chip" data-cmd="open claude">✨ Claude</span>
+                <span class="badge bg-dark border border-primary text-primary cursor-pointer quick-chip" data-cmd="open gemini">🔷 Gemini</span>
+                <span class="badge bg-dark border border-success text-success cursor-pointer quick-chip" data-cmd="weather today">⛅ Weather</span>
+                <span class="badge bg-dark border border-danger text-danger cursor-pointer quick-chip" data-cmd="latest news">📰 News</span>
+            </div>
             <!-- Chatting code here -->
 
         </div>
@@ -357,8 +499,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content glass-effect">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color: white; text-align: center;">Assistant
-                        Settings</h5>
+                    <h5 class="modal-title" id="exampleModalLabel" style="color: #00f0ff; text-align: center;"><i class="bi bi-cpu-fill me-2"></i>Megatron AI // System Control Console</h5>
                     <button type="button" class="btn-close btn-glow-red" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -367,13 +508,20 @@
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
                                 data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                                aria-selected="true">Personal</button>
-                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
-                                aria-selected="false">Commands</button>
+                                aria-selected="true"><i class="bi bi-person-fill me-1"></i> Operator</button>
+                            <button class="nav-link" id="nav-ai-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-ai" type="button" role="tab" aria-controls="nav-ai"
+                                aria-selected="false"><i class="bi bi-cpu me-1"></i> Intelligence Core</button>
                             <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab"
                                 data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact"
-                                aria-selected="false">Phone Book</button>
+                                aria-selected="false"><i class="bi bi-telephone-fill me-1"></i> Comms Directory</button>
+                            <button class="nav-link" id="nav-apps-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-apps" type="button" role="tab" aria-controls="nav-apps"
+                                aria-selected="false"><i class="bi bi-laptop me-1"></i> Native Suites</button>
+                            <!-- System Commands tab strictly for App / Software Suite (hidden in web browser) -->
+                            <button class="nav-link app-only-feature" id="nav-profile-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
+                                aria-selected="false" style="display: none;"><i class="bi bi-terminal-fill me-1"></i> System Commands</button>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
@@ -470,9 +618,9 @@
                             </div>
                         </div>
 
-                        <!-- Tab 2 -->
-                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
-                            tabindex="0">
+                        <!-- Tab 2: System Commands (App & Software Only) -->
+                        <div class="tab-pane fade app-only-feature" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
+                            tabindex="0" style="display: none;">
 
                             <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                                 aria-labelledby="nav-home-tab" tabindex="0">
@@ -697,6 +845,524 @@
                             </div>
 
                         </div>
+
+                        <!-- Tab-4: Multi-Provider API Integration & Model Training Hub -->
+                        <div class="tab-pane fade" id="nav-ai" role="tabpanel" aria-labelledby="nav-ai-tab" tabindex="0">
+                            <div class="p-4 text-light">
+                                <div class="row g-4">
+                                    <div class="col-lg-7">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h4 class="mb-0 text-info"><i class="bi bi-cpu-fill text-info me-2"></i>Multi-Provider API Integration</h4>
+                                            <span class="badge bg-dark border border-info text-info"><i class="bi bi-patch-check-fill text-info me-1"></i>Live Key Switcher</span>
+                                        </div>
+                                        <p class="text-muted small mb-3">Attach API keys from your preferred AI service. If any API package or quota ends, Megatron seamlessly rotates to your backup attached API or live web search so you are never left without intelligence.</p>
+
+                                        <!-- Provider Selection Cards -->
+                                        <label class="form-label text-light small fw-bold mb-2"><i class="bi bi-diagram-3-fill text-warning me-1"></i> Select Active AI Provider:</label>
+                                        <div class="row g-2 mb-3" id="ProviderSelectorGrid">
+                                            <div class="col-md-4 col-6">
+                                                <div class="provider-pill active" data-provider="gemini">
+                                                    <i class="bi bi-google text-warning"></i>
+                                                    <div>
+                                                        <div class="fw-bold">Google Gemini</div>
+                                                        <small class="text-muted">1.5 / 2.0 Flash</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div class="provider-pill" data-provider="openai">
+                                                    <i class="bi bi-robot text-success"></i>
+                                                    <div>
+                                                        <div class="fw-bold">OpenAI</div>
+                                                        <small class="text-muted">GPT-4o Mini</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                <div class="provider-pill" data-provider="groq">
+                                                    <i class="bi bi-lightning-charge-fill text-danger"></i>
+                                                    <div>
+                                                        <div class="fw-bold">Groq Cloud</div>
+                                                        <small class="text-muted">Llama 3.3 (Fast)</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-6">
+                                                <div class="provider-pill" data-provider="openrouter">
+                                                    <i class="bi bi-stars text-info"></i>
+                                                    <div>
+                                                        <div class="fw-bold">OpenRouter</div>
+                                                        <small class="text-muted">DeepSeek / Claude / Llama</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="provider-pill" data-provider="custom">
+                                                    <i class="bi bi-hdd-network text-primary"></i>
+                                                    <div>
+                                                        <div class="fw-bold">Custom / Local LLM</div>
+                                                        <small class="text-muted">Ollama / vLLM / LM Studio</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- API Key Configuration Form -->
+                                        <div class="p-3 rounded mb-3" style="background: rgba(10, 22, 50, 0.7); border: 1px solid rgba(0, 240, 255, 0.3);">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span class="small fw-bold text-light" id="ActiveProviderLabel"><i class="bi bi-key-fill text-warning me-1"></i> Attach Google Gemini API Key</span>
+                                                <span class="badge bg-dark border border-secondary text-muted" id="ActiveProviderStatusBadge">Ready</span>
+                                            </div>
+
+                                            <!-- API Key Input -->
+                                            <div class="input-group mb-2">
+                                                <span class="input-group-text bg-dark border-info text-info"><i class="bi bi-shield-lock"></i></span>
+                                                <input type="password" class="form-control glassy-form" id="CurrentProviderApiKeyInput" placeholder="Paste your API key here...">
+                                                <button class="btn btn-outline-info" type="button" id="ToggleActiveKeyVisBtn" title="Toggle visibility"><i class="bi bi-eye"></i></button>
+                                            </div>
+
+                                            <!-- Custom Endpoint URL (Shown only for Custom/Local) -->
+                                            <div id="CustomEndpointBox" style="display: none;" class="mb-2">
+                                                <label class="form-label text-muted small mb-1">Custom Endpoint Base URL</label>
+                                                <input type="text" class="form-control glassy-form" id="CustomApiUrlInput" placeholder="http://localhost:11434/v1">
+                                            </div>
+
+                                            <!-- Test & Save Buttons -->
+                                            <div class="d-flex justify-content-between align-items-center mt-3 gap-2 flex-wrap">
+                                                <button type="button" id="TestConnectionBtn" class="btn btn-outline-info btn-sm px-3">
+                                                    <span id="TestConnSpinner" class="spinner-border spinner-border-sm me-1" style="display: none;"></span>
+                                                    <i class="bi bi-broadcast me-1"></i> Test Connection & Quota
+                                                </button>
+                                                <button type="button" id="SaveApiConfigBtn" class="btn btn-megatron-glow btn-sm px-3">
+                                                    <i class="bi bi-check2-circle me-1"></i> Attach & Save Key
+                                                </button>
+                                            </div>
+
+                                            <!-- Test Status Alert -->
+                                            <div id="ApiTestFeedbackAlert" class="mt-2 py-1 px-2 small rounded" style="display: none;"></div>
+                                        </div>
+
+                                        <!-- Auto-Failover Quota Protection Switch -->
+                                        <div class="form-check form-switch p-3 rounded" style="background: rgba(0, 240, 255, 0.06); border: 1px solid rgba(0, 240, 255, 0.2);">
+                                            <input class="form-check-input ms-0 me-2" type="checkbox" id="AutoFailoverSwitch" checked>
+                                            <label class="form-check-label text-light small fw-bold" for="AutoFailoverSwitch">
+                                                <i class="bi bi-shield-fill-check text-success me-1"></i> Automatic Package-Ended Failover
+                                            </label>
+                                            <div class="text-muted small ps-4 mt-1" style="font-size: 12px; line-height: 1.5;">
+                                                If your active API quota ends or returns HTTP 429, Megatron automatically rotates to your backup attached API or live web search without interruption.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Right Column: Continuous Model Training & Synapse Recall -->
+                                    <div class="col-lg-5 border-start border-info ps-lg-4">
+                                        <h5 class="mb-2 text-warning"><i class="bi bi-brain text-warning me-1"></i> Continuous Model Training</h5>
+                                        <p class="text-muted small mb-3">Our AI model continuously trains on <strong>every search and response</strong> you perform, compounding intelligence over time.</p>
+
+                                        <!-- Real-Time Training Metrics -->
+                                        <div class="row g-2 mb-3">
+                                            <div class="col-4">
+                                                <div class="memory-stat-card p-2">
+                                                    <span class="stat-number text-info" id="ModelTrainedSearches">0</span>
+                                                    <span class="stat-label" style="font-size: 10px;">Queries Learned</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="memory-stat-card p-2">
+                                                    <span class="stat-number text-warning" id="ModelTrainedTopics">0</span>
+                                                    <span class="stat-label" style="font-size: 10px;">Synapse Nodes</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="memory-stat-card p-2">
+                                                    <span class="stat-number text-success" id="ModelTrainedConfidence">1.0</span>
+                                                    <span class="stat-label" style="font-size: 10px;">Confidence</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Direct Knowledge Injection / Teach Megatron -->
+                                        <div class="p-3 rounded mb-3" style="background: rgba(10, 22, 50, 0.6); border: 1px solid rgba(0, 240, 255, 0.25);">
+                                            <h6 class="text-light small fw-bold mb-2"><i class="bi bi-lightning-charge-fill text-warning me-1"></i> Direct Fact / Knowledge Training</h6>
+                                            <div class="mb-2">
+                                                <input type="text" class="form-control glassy-form form-control-sm" id="TrainTopicInput" placeholder="Topic or Question (e.g. My preferred editor)">
+                                            </div>
+                                            <div class="mb-2">
+                                                <textarea class="form-control glassy-form form-control-sm" id="TrainSummaryInput" rows="2" placeholder="Fact / Answer (e.g. I use Visual Studio Code for Python)"></textarea>
+                                            </div>
+                                            <button type="button" id="SubmitTrainFactBtn" class="btn btn-outline-warning btn-sm w-100">
+                                                <i class="bi bi-plus-circle me-1"></i> Train Knowledge Node
+                                            </button>
+                                        </div>
+
+                                        <!-- Voice & Action Quick Guide -->
+                                        <h6 class="text-light small fw-bold mb-2"><i class="bi bi-mic-fill text-info me-1"></i> Voice & Action Quick Guide</h6>
+                                        <div class="text-light" style="font-size: 12px; line-height: 1.7;">
+                                            <div><strong class="text-info">• "Open notepad / cmd / edge"</strong> — Launches apps</div>
+                                            <div><strong class="text-info">• "Play [song] on YouTube"</strong> — Music stream</div>
+                                            <div><strong class="text-info">• "What time / date is it?"</strong> — Current clock</div>
+                                            <div><strong class="text-info">• "Calculate 45 * 8"</strong> — Arithmetic</div>
+                                            <div><strong class="text-info">• "Volume up / down / mute"</strong> — Audio</div>
+                                            <div><strong class="text-info">• "Take screenshot"</strong> — Saves to Pictures</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab-5: Learned Memory (App & Software Only) -->
+                        <div class="tab-pane fade app-only-feature" id="nav-memory" role="tabpanel" aria-labelledby="nav-memory-tab" tabindex="0" style="display: none;">
+                            
+                            <!-- STATE A: CLASSIFIED ADMIN LOCK GATE (SHOWN BY DEFAULT) -->
+                            <div id="AdminLockedVaultView" class="p-3">
+                                <div class="admin-classified-vault">
+                                    <div class="admin-hazard-stripes"></div>
+                                    <div class="admin-lock-crest">
+                                        <i class="bi bi-shield-lock-fill"></i>
+                                    </div>
+                                    <h4 class="admin-vault-title">LEVEL 0 // CLASSIFIED MEGATRON NEURAL VAULT</h4>
+                                    <p class="admin-vault-subtitle">
+                                        <strong class="text-info">RESTRICTED SECURITY PROTOCOL:</strong> Trained neural datasets, query memory logs, and continuous AI learning weights are restricted exclusively to the <strong>Main AI Administrator</strong>. Public browser sessions cannot view, inspect, or modify trained data.
+                                    </p>
+
+                                    <div class="admin-passcode-box">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text bg-dark border-info text-info"><i class="bi bi-key-fill"></i></span>
+                                            <input type="password" id="AdminPasscodeInput" class="form-control glassy-form" placeholder="Enter Main Admin Master Passcode..." autocomplete="off">
+                                            <button class="btn btn-outline-info" type="button" id="ToggleAdminPasscodeVisibility" title="Toggle visibility"><i class="bi bi-eye"></i></button>
+                                        </div>
+                                        <div id="AdminAuthAlert" class="alert alert-warning py-2 small mb-3" style="display: none;"></div>
+                                        <button id="AdminAuthSubmitBtn" class="btn btn-megatron-glow w-100">
+                                            <span id="AdminAuthSpinner" class="spinner-border spinner-border-sm me-1" style="display: none;"></span>
+                                            <i class="bi bi-shield-check me-1"></i> Authenticate Clearance
+                                        </button>
+                                        <div class="mt-3 text-muted small" style="font-size: 11px;">
+                                            <i class="bi bi-info-circle me-1"></i> Default Master Passcode: <code>admin123</code> (Customizable by Main Admin inside)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- STATE B: MAIN ADMIN UNLOCKED VAULT CONSOLE (HIDDEN UNTIL AUTHENTICATED) -->
+                            <div id="AdminUnlockedVaultView" class="p-3 text-light" style="display: none;">
+                                <div class="admin-console-header">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="admin-badge-granted"><i class="bi bi-shield-fill-check"></i> MAIN ADMIN AUTHENTICATED</span>
+                                        <span class="text-muted small">Megatron Neural Synapse Controls</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                        <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#ChangePasscodeBox" aria-expanded="false">
+                                            <i class="bi bi-gear-fill me-1"></i> Change Passcode
+                                        </button>
+                                        <button id="RefreshMemoryBtn" class="btn btn-outline-danger btn-sm"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+                                        <button id="ClearAllMemoryBtn" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i> Purge All Data</button>
+                                        <button id="AdminLockoutBtn" class="btn btn-danger btn-sm"><i class="bi bi-lock-fill"></i> Lock Vault</button>
+                                    </div>
+                                </div>
+
+                                <!-- Collapsible Change Passcode Form -->
+                                <div class="collapse mb-3" id="ChangePasscodeBox">
+                                    <div class="card card-body bg-dark border-danger p-3">
+                                        <h6 class="text-danger mb-2"><i class="bi bi-key me-1"></i> Update Admin Master Passcode</h6>
+                                        <div class="row g-2 align-items-center">
+                                            <div class="col-md-5">
+                                                <input type="password" id="CurrentAdminPasscodeInput" class="form-control glassy-form form-control-sm" placeholder="Current passcode">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="password" id="NewAdminPasscodeInput" class="form-control glassy-form form-control-sm" placeholder="New master passcode (min 4 chars)">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button id="SubmitChangePasscodeBtn" class="btn btn-glow btn-sm w-100">Update</button>
+                                            </div>
+                                        </div>
+                                        <small id="ChangePasscodeFeedback" class="d-block mt-2 text-muted"></small>
+                                    </div>
+                                </div>
+
+                                <!-- Memory Stats Cards -->
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-4">
+                                        <div class="memory-stat-card">
+                                            <span class="stat-number text-danger" id="StatSearchesCount">0</span>
+                                            <span class="stat-label">Stored Searches & Solutions</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="memory-stat-card">
+                                            <span class="stat-number text-warning" id="StatTopicsCount">0</span>
+                                            <span class="stat-label">Learned Knowledge Topics</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="memory-stat-card">
+                                            <span class="stat-badge text-success"><i class="bi bi-check-circle-fill"></i> ACTIVE</span>
+                                            <span class="stat-label">Continuous Recall Engine</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Search Filter Bar -->
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-dark border-danger text-danger"><i class="bi bi-search"></i></span>
+                                    <input type="text" id="MemoryFilterInput" class="form-control glassy-form" placeholder="Filter through past queries, questions, or answers...">
+                                </div>
+
+                                <!-- Memory Table -->
+                                <div class="table-responsive table-scroll" style="height: 310px;">
+                                    <table class="table table-hover align-middle">
+                                        <thead class="sticky-top bg-dark">
+                                            <tr>
+                                                <th class="text-light" style="width: 50px;">#</th>
+                                                <th class="text-light" style="width: 140px;">Time</th>
+                                                <th class="text-light" style="width: 110px;">Type</th>
+                                                <th class="text-light">Search Query / Problem</th>
+                                                <th class="text-light">Megatron's Learned Response</th>
+                                                <th class="text-light text-center" style="width: 90px;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="MemoryTableBody">
+                                            <!-- Dynamically populated only when authenticated -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Tab-6: PC Software & Android Mobile App -->
+                        <div class="tab-pane fade" id="nav-apps" role="tabpanel" aria-labelledby="nav-apps-tab" tabindex="0">
+                            <div class="p-4 text-light">
+                                <h4 class="mb-2 text-info"><i class="bi bi-shield-lock-fill me-2"></i>Megatron Deployment Modes & System Control</h4>
+                                <p class="text-muted small mb-3">Choose how you want to run Megatron depending on your security and device control needs.</p>
+
+                                <!-- Multi-Device Wi-Fi Network Access Card -->
+                                <div class="mb-4 p-3 rounded" style="background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.5); border-radius: 12px; box-shadow: 0 0 20px rgba(14, 165, 233, 0.15);">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="p-2 rounded-circle" style="background: rgba(14, 165, 233, 0.2); border: 1px solid rgba(14, 165, 233, 0.6);">
+                                                <i class="bi bi-wifi text-info fs-4"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="text-info mb-1 fw-bold"><i class="bi bi-broadcast me-1"></i> RUN ON ALL DEVICES (PHONES, TABLETS, LAPTOPS)</h6>
+                                                <p class="text-muted small mb-0">Open this URL in any browser on any phone, tablet, or PC connected to this Wi-Fi network:</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm text-center fw-bold bg-dark text-info border-info" id="NetworkAccessUrlInput" value="http://10.42.100.247:8000/index.html" readonly style="width: 280px; letter-spacing: 0.5px;">
+                                                <button class="btn btn-outline-info btn-sm" id="CopyNetworkUrlBtn" title="Copy Network URL"><i class="bi bi-clipboard"></i> Copy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <!-- Mode 1: Browser Web Agent -->
+                                    <div class="col-md-4">
+                                        <div class="card h-100 p-3" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(0, 240, 255, 0.4); border-radius: 14px;">
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <i class="bi bi-globe2 fs-3 text-info"></i>
+                                                <div>
+                                                    <h6 class="text-light mb-0">Browser Web Agent</h6>
+                                                    <span class="badge bg-info text-dark">Current Mode</span>
+                                                </div>
+                                            </div>
+                                            <p class="small text-muted mb-3">Safe, zero-prompt research assistant. Does not ask for face recognition and restricts direct PC hardware controls for security.</p>
+                                            <ul class="small text-light ps-3 mb-3" style="line-height: 1.8;">
+                                                <li><i class="bi bi-check2 text-success"></i> Web & DuckDuckGo Search</li>
+                                                <li><i class="bi bi-check2 text-success"></i> Real-time Weather & News</li>
+                                                <li><i class="bi bi-check2 text-success"></i> ChatGPT / Claude / Gemini</li>
+                                                <li><i class="bi bi-check2 text-success"></i> Visual Solution Finder</li>
+                                                <li><i class="bi bi-x-lg text-danger"></i> PC Volume / Lock Screen Disabled</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- Mode 2: Windows Desktop Software -->
+                                    <div class="col-md-4">
+                                        <div class="card h-100 p-3" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(37, 99, 235, 0.5); border-radius: 14px;">
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <i class="bi bi-windows fs-3 text-primary"></i>
+                                                <div>
+                                                    <h6 class="text-light mb-0">Windows PC Software</h6>
+                                                    <span class="badge bg-primary">Full PC Control</span>
+                                                </div>
+                                            </div>
+                                            <p class="small text-muted mb-3">Native Windows desktop application with full hardware control unlocked once installed on your computer.</p>
+                                            <ul class="small text-light ps-3 mb-3" style="line-height: 1.8;">
+                                                <li><i class="bi bi-check2 text-success"></i> Master Volume Up / Down / Mute</li>
+                                                <li><i class="bi bi-check2 text-success"></i> Lock PC & Take Screenshots</li>
+                                                <li><i class="bi bi-check2 text-success"></i> Launch Notepad, CMD, Apps</li>
+                                                <li><i class="bi bi-check2 text-success"></i> Win+J Global Wake Key</li>
+                                                <li><i class="bi bi-check2 text-success"></i> WhatsApp Desktop Automation</li>
+                                            </ul>
+                                            <div class="mt-auto">
+                                                <a href="downloads/Megatron_Windows_Software_Suite.zip" download="Megatron_Windows_Software_Suite.zip" class="btn btn-primary w-100 btn-sm fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2" id="CardDownloadWinBtn">
+                                                    <i class="bi bi-download"></i> Download Windows Software Suite (.zip)
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Mode 3: Android Mobile App -->
+                                    <div class="col-md-4">
+                                        <div class="card h-100 p-3" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(0, 255, 136, 0.4); border-radius: 14px;">
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <i class="bi bi-android2 fs-3 text-success"></i>
+                                                <div>
+                                                    <h6 class="text-light mb-0">Android Mobile App</h6>
+                                                    <span class="badge bg-success">Full Device Control</span>
+                                                </div>
+                                            </div>
+                                            <p class="small text-muted mb-3">Install on your Android smartphone for on-the-go voice assistant with full mobile device permissions.</p>
+                                            <ul class="small text-light ps-3 mb-3" style="line-height: 1.8;">
+                                                <li><i class="bi bi-check2 text-success"></i> Direct Phone Calling & SMS</li>
+                                                <li><i class="bi bi-check2 text-success"></i> Flashlight Torch & Vibration</li>
+                                                <li><i class="bi bi-check2 text-success"></i> Battery Level Monitoring</li>
+                                                <li><i class="bi bi-check2 text-success"></i> Camera Visual Problem Solver</li>
+                                                <li><i class="bi bi-check2 text-success"></i> Installable PWA / Native APK</li>
+                                            </ul>
+                                            <div class="mt-auto">
+                                                <a href="downloads/Megatron_Android_App.apk" download="Megatron_Android_App.apk" class="btn btn-success w-100 btn-sm fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2" id="CardDownloadApkBtn">
+                                                    <i class="bi bi-download"></i> Download Android Mobile APK (.apk)
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Megatron Standalone Native Software & Mobile Distribution Center -->
+                                <div class="mt-4 p-4 rounded" style="background: rgba(0, 240, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.35); border-radius: 14px; box-shadow: 0 0 25px rgba(0, 240, 255, 0.1);">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="p-3 rounded-circle" style="background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.4);">
+                                                <i class="bi bi-cloud-arrow-down-fill text-info fs-3"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="text-info mb-1 fw-bold text-uppercase" style="letter-spacing: 1px;">Official Download Center &bull; Software & Mobile App</h6>
+                                                <p class="text-muted small mb-0">Download standalone versions with full PC hardware control and mobile smartphone automation.</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex gap-2 flex-wrap">
+                                            <a href="downloads/Megatron_Windows_Software_Suite.zip" download="Megatron_Windows_Software_Suite.zip" class="btn btn-outline-primary btn-sm px-3 py-2 d-flex align-items-center gap-2 text-decoration-none" id="SuiteDownloadWinBtn">
+                                                <i class="bi bi-windows fs-5 text-primary"></i>
+                                                <div class="text-start">
+                                                    <div class="fw-bold" style="font-size: 13px;">Windows Software</div>
+                                                    <small class="text-muted" style="font-size: 10px;">Full PC Control (.zip)</small>
+                                                </div>
+                                            </a>
+                                            <a href="downloads/Megatron_Android_App.apk" download="Megatron_Android_App.apk" class="btn btn-outline-success btn-sm px-3 py-2 d-flex align-items-center gap-2 text-decoration-none" id="SuiteDownloadApkBtn">
+                                                <i class="bi bi-android2 fs-5 text-success"></i>
+                                                <div class="text-start">
+                                                    <div class="fw-bold" style="font-size: 13px;">Android Mobile APK</div>
+                                                    <small class="text-muted" style="font-size: 10px;">Full Mobile Device (.apk)</small>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Image Solution Finder -->
+    <div class="modal fade" id="ImageSearchModal" tabindex="-1" aria-labelledby="ImageSearchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content glass-effect">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="modal-icon-badge"><i class="bi bi-camera-fill"></i></div>
+                        <div>
+                            <h5 class="modal-title text-light mb-0" id="ImageSearchModalLabel">Megatron Visual Solution Finder</h5>
+                            <small class="text-info" style="font-size: 11px; letter-spacing: 1px;">UPLOAD ANY IMAGE TO SEARCH COMPREHENSIVE SOLUTIONS ACROSS THE WEB</small>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <!-- Drop Zone -->
+                    <div id="ImageDropZone" class="image-drop-zone text-center p-4">
+                        <input type="file" id="ImageFileInput" accept="image/*" style="display: none;">
+                        <div id="DropZonePrompt">
+                            <i class="bi bi-cloud-arrow-up display-4 text-info mb-2 d-block"></i>
+                            <h6 class="text-light">Drag & drop your problem, diagram, or photo here</h6>
+                            <p class="text-muted small mb-2">or <span class="text-info cursor-pointer text-decoration-underline" id="BrowseImageLink" style="cursor: pointer;">browse from your computer</span> • Ctrl+V to paste screenshot</p>
+                            <span class="badge bg-dark border border-info text-muted">Supports PNG, JPG, JPEG, WEBP, BMP</span>
+                        </div>
+                        <!-- Image Preview Container -->
+                        <div id="ImagePreviewContainer" style="display: none;">
+                            <img id="ImagePreview" src="" alt="Uploaded Image Preview" class="img-fluid rounded border border-info shadow-lg mb-3" style="max-height: 240px; object-fit: contain;">
+                            <div class="d-flex justify-content-center align-items-center gap-3">
+                                <span id="ImageFileInfo" class="badge bg-dark border border-info text-info p-2"></span>
+                                <button type="button" id="RemoveImageBtn" class="btn btn-outline-info btn-sm"><i class="bi bi-trash"></i> Remove Image</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Optional Custom Question/Prompt -->
+                    <div class="mt-3">
+                        <label class="form-label text-light small d-flex justify-content-between">
+                            <span><i class="bi bi-chat-left-text text-info"></i> Specific Question or Solution Needed (Optional)</span>
+                            <span class="text-muted">e.g., "Solve this math problem", "Explain this bug"</span>
+                        </label>
+                        <input type="text" id="ImageSearchPrompt" class="form-control glassy-form" placeholder="What solution or answer do you need from this image?">
+                    </div>
+
+                    <!-- Engine Selector -->
+                    <div class="mt-3">
+                        <label class="form-label text-light small mb-2"><i class="bi bi-diagram-3 text-warning"></i> Select Solution Engine:</label>
+                        <div class="row g-2" id="EngineSelectorGroup">
+                            <div class="col-md-4">
+                                <div class="engine-card active" data-engine="megatron_ai">
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <i class="bi bi-stars text-info fs-5"></i>
+                                        <strong class="text-light">Megatron Vision AI</strong>
+                                    </div>
+                                    <small class="text-muted d-block">Direct multimodal AI solution solver</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="engine-card" data-engine="google_lens">
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <i class="bi bi-google text-warning fs-5"></i>
+                                        <strong class="text-light">Google Lens</strong>
+                                    </div>
+                                    <small class="text-muted d-block">Reverse web search & match</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="engine-card" data-engine="bing">
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <i class="bi bi-microsoft text-primary fs-5"></i>
+                                        <strong class="text-light">Bing Visual</strong>
+                                    </div>
+                                    <small class="text-muted d-block">Web image solution finder</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button & Loading -->
+                    <div class="d-flex justify-content-end align-items-center mt-4 gap-2">
+                        <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" id="SubmitImageSearchBtn" class="btn btn-megatron-glow px-4" style="width: auto;">
+                            <span id="SubmitBtnSpinner" class="spinner-border spinner-border-sm me-1" style="display: none;"></span>
+                            <i class="bi bi-search me-1" id="SubmitBtnIcon"></i> Find Solution
+                        </button>
+                    </div>
+
+                    <!-- Solution Result Box -->
+                    <div id="ImageSolutionResultBox" class="mt-4 p-3 rounded" style="display: none; background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.4);">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="text-info mb-0"><i class="bi bi-check2-circle"></i> Megatron Solution / Web Result:</h6>
+                            <button id="CopySolutionBtn" class="btn btn-outline-info btn-sm py-0 px-2" style="font-size: 11px;"><i class="bi bi-clipboard"></i> Copy</button>
+                        </div>
+                        <div id="ImageSolutionText" class="text-light" style="white-space: pre-wrap; font-size: 14px; max-height: 250px; overflow-y: auto;"></div>
                     </div>
                 </div>
             </div>
@@ -717,36 +1383,35 @@
         </div>
     </div>
 
-    <!--Jquery  -->
+    <!-- jQuery (Modern 3.6.4) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-    <!-- Bootstrap -->
+    <!-- Eel Client WebSocket (Loaded before application scripts) -->
+    <script src="/eel.js"></script>
+
+    <!-- Bootstrap 5 Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
-    <!-- Particle js -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+    <!-- Particle 60FPS Sphere -->
     <script src="script.js"></script>
 
     <!-- Siri wave -->
     <script src="https://unpkg.com/siriwave/dist/siriwave.umd.min.js"></script>
 
-    <!-- Texllate js -->
+    <!-- Textillate Animation -->
     <script src="assets/vendore/texllate/jquery.fittext.js"></script>
     <script src="assets/vendore/texllate/jquery.lettering.js"></script>
-    <script src="http://jschr.github.io/textillate/jquery.textillate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/textillate/0.4.0/jquery.textillate.min.js"></script>
 
-    <!-- lottie files -->
+    <!-- Lottie & SweetAlert -->
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
-    <!-- sweet Alert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <script src="main.js"></script>
+    <!-- Megatron Core Controllers -->
     <script src="controller.js"></script>
-    <script src="/eel.js"></script>
+    <script src="main.js"></script>
 
 
 </body>

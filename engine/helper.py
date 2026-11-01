@@ -1,60 +1,90 @@
 import os
 import re
 import time
-import markdown2
 from bs4 import BeautifulSoup
 
 def extract_yt_term(command):
-    # Define a regular expression pattern to capture the song name
-    pattern = r'play\s+(.*?)\s+on\s+youtube'
-    # Use re.search to find the match in the command
-    match = re.search(pattern, command, re.IGNORECASE)
-    # If a match is found, return the extracted song name; otherwise, return None
-    return match.group(1) if match else None
-
+    """Extract search term for YouTube, supporting 'play X on youtube' and 'play X'"""
+    if not command:
+        return ""
+    clean = re.sub(r'\b(megatron|alexa|hey|please|can you)\b', '', command, flags=re.IGNORECASE).strip()
+    
+    # Check for 'play ... on youtube'
+    pattern_yt = r'play\s+(.*?)\s+on\s+youtube'
+    match = re.search(pattern_yt, clean, re.IGNORECASE)
+    if match:
+        return match.group(1).strip()
+    
+    # Check for 'play ...'
+    pattern_play = r'play\s+(.*)'
+    match = re.search(pattern_play, clean, re.IGNORECASE)
+    if match:
+        term = match.group(1).replace('on youtube', '').strip()
+        return term
+        
+    return clean.replace('play', '').replace('on youtube', '').strip()
 
 def remove_words(input_string, words_to_remove):
-    # Split the input string into words
+    if not input_string:
+        return ""
     words = input_string.split()
-
-    # Remove unwanted words
     filtered_words = [word for word in words if word.lower() not in words_to_remove]
+    return ' '.join(filtered_words)
 
-    # Join the remaining words back into a string
-    result_string = ' '.join(filtered_words)
-
-    return result_string
-
-
-
-# key events like receive call, stop call, go back
+# ADB / Android automation helpers
 def keyEvent(key_code):
-    command =  f'adb shell input keyevent {key_code}'
-    os.system(command)
-    time.sleep(1)
+    try:
+        command = f'adb shell input keyevent {key_code}'
+        os.system(command)
+        time.sleep(1)
+    except Exception as e:
+        print(f"ADB keyEvent error: {e}")
 
-# Tap event used to tap anywhere on screen
 def tapEvents(x, y):
-    command =  f'adb shell input tap {x} {y}'
-    os.system(command)
-    time.sleep(1)
+    try:
+        command = f'adb shell input tap {x} {y}'
+        os.system(command)
+        time.sleep(1)
+    except Exception as e:
+        print(f"ADB tapEvents error: {e}")
 
-# Input Event is used to insert text in mobile
 def adbInput(message):
-    command =  f'adb shell input text "{message}"'
-    os.system(command)
-    time.sleep(1)
+    try:
+        command = f'adb shell input text "{message}"'
+        os.system(command)
+        time.sleep(1)
+    except Exception as e:
+        print(f"ADB adbInput error: {e}")
 
-# to go complete back
-def goback(key_code):
-    for i in range(6):
+def goback(key_code=4):
+    for _ in range(4):
         keyEvent(key_code)
 
-# To replace space in string with %s for complete message send
 def replace_spaces_with_percent_s(input_string):
-    return input_string.replace(' ', '%s')
+    if not input_string:
+        return ""
+    return str(input_string).replace(' ', '%s')
 
 def markdown_to_text(md):
-    html = markdown2.markdown(md)
-    soup = BeautifulSoup(html, "html.parser")
-    return soup.get_text().strip()
+    """Converts markdown to plain text without crashing if markdown2 is missing."""
+    if not md:
+        return ""
+    try:
+        import markdown2
+        html = markdown2.markdown(md)
+        soup = BeautifulSoup(html, "html.parser")
+        return soup.get_text().strip()
+    except Exception:
+        # High quality regex markdown cleaner
+        text = str(md)
+        text = re.sub(r'```.*?```', '', text, flags=re.DOTALL)
+        text = re.sub(r'`([^`]+)`', r'\1', text)
+        text = re.sub(r'#+\s*', '', text)
+        text = re.sub(r'\*\*([^*]+)\*\*', r'\1', text)
+        text = re.sub(r'\*([^*]+)\*', r'\1', text)
+        text = re.sub(r'__([^_]+)__', r'\1', text)
+        text = re.sub(r'_([^_]+)_', r'\1', text)
+        text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
+        text = re.sub(r'^\s*[-*+]\s+', '', text, flags=re.MULTILINE)
+        text = re.sub(r'\n+', ' ', text)
+        return text.strip()
